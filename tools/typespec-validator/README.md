@@ -1,5 +1,11 @@
 # TypeSpec Validator
 
+## TODO
+1. Options for command-line tool name
+   1. `typespec-validator`
+   1. `tsp-validator`
+   1. `tspv`
+
 ## Installing
 1. Install .NET 6.0
 1. Install typespec-validator
