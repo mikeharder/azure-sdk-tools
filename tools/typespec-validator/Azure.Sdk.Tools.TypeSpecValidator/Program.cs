@@ -1,9 +1,9 @@
-using CommandLine;
-using CommandLine.Text;
 using System;
 using System.Threading.Tasks;
+using CommandLine;
+using CommandLine.Text;
 
-namespace Azure.Sdk.Tools.TypeSpecValidation
+namespace Azure.Sdk.Tools.TypeSpecValidator
 {
     public static class Program
     {
@@ -53,7 +53,28 @@ namespace Azure.Sdk.Tools.TypeSpecValidation
 
         private static async Task Run(Options options)
         {
-            Console.WriteLine(options.Path);
+            // 1. Find all swaggers generated from TypeSpec
+            // 2. Find all TypeSpec projects
+            // 3. Filter based on git-diff (if specified)
+            // 4. Foreach SwaggerFile, run all SwaggerFileRules, passing in all TypeSpecProjects
+            // 5. Foreach TypeSpecProject, run all TypeSpecProjectRules, passing in all SwaggerFiles
+
+            var swaggers = SwaggerFile.EnumerateSwaggerFilesGeneratedFromTypeSpec(options.Path);
+            Console.WriteLine("Swagger Files Generated from TypeSpec");
+            foreach (var s in swaggers)
+            {
+                Console.WriteLine($"- {s.Path}");
+            }
+
+            Console.WriteLine();
+
+            var projects = TypeSpecProject.EnumerateProjects(options.Path);
+            Console.WriteLine("TypeSpec Projects");
+            foreach (var p in projects)
+            {
+                Console.WriteLine($"- {p.Path}");
+            }
+
             await Task.CompletedTask;
         }
     }
