@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CommandLine;
 using CommandLine.Text;
@@ -60,7 +61,7 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
             // 5. Foreach TypeSpecProject, run all TypeSpecProjectRules, passing in all SwaggerFiles
 
             Console.WriteLine("Swagger Files Generated from TypeSpec");
-            var swaggers = SwaggerFile.EnumerateSwaggerFilesGeneratedFromTypeSpec(options.Path);
+            var swaggers = SwaggerFile.EnumerateSwaggerFiles(options.Path).Where(s => s.GeneratedFromTypeSpec);
             foreach (var s in swaggers)
             {
                 Console.WriteLine($"- {s.Path}");

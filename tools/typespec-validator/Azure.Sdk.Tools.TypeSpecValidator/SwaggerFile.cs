@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.FileSystemGlobbing;
 
@@ -8,7 +9,7 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
 {
     internal class SwaggerFile
     {
-        public static IEnumerable<SwaggerFile> EnumerateSwaggerFilesGeneratedFromTypeSpec(string path)
+        public static IEnumerable<SwaggerFile> EnumerateSwaggerFiles(string path)
         {
             var matcher = new Matcher(StringComparison.OrdinalIgnoreCase);
 
@@ -23,23 +24,20 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
             // TODO: Remove or rename to typespec?
             matcher.AddExclude("**/cadl/**/*.json");
 
-            foreach (var f in matcher.GetResultsInFullPath(path))
-            {
-                var json = JsonNode.Parse(File.ReadAllText(f));
-                if (json["info"]?["x-typespec-generated"] != null)
-                {
-                    yield return new SwaggerFile(f, json);
-                }
-            }
+            return matcher.GetResultsInFullPath(path).Select(f => new SwaggerFile(f));
         }
 
-        public string Path { get; private set; }
-        public JsonNode Json { get; private set; }
+        public bool GeneratedFromTypeSpec => (Json["info"]?["x-typespec-generated"] != null);
 
-        public SwaggerFile(string path, JsonNode json)
+        private Lazy<JsonNode> _json;
+        public JsonNode Json => _json.Value;
+
+        public string Path { get; private set; }
+
+        public SwaggerFile(string path)
         {
             Path = path;
-            Json = json;
+            _json = new Lazy<JsonNode>(() => JsonNode.Parse(File.ReadAllText(path)));
         }
     }
 }
