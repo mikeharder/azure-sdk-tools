@@ -15,6 +15,7 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
         }
 
         public string Path { get; private set; }
+        // TODO: Add deserialized tspconfig.yaml to TypeSpecProject
 
         public TypeSpecProject(string path)
         {
