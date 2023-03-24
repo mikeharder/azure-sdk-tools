@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Sdk.Tools.TypeSpecVal
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Azure.Sdk.Tools.TypeSpecValidator.Tests", "Azure.Sdk.Tools.TypeSpecValidator.Tests\Azure.Sdk.Tools.TypeSpecValidator.Tests.csproj", "{1CCC7DAA-0BDC-488E-9137-6171F7735E30}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{22D114C6-14D2-4E8A-9160-30234374D21F}"
+	ProjectSection(SolutionItems) = preProject
+		ci.yml = ci.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
