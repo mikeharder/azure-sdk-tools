@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 namespace Azure.Sdk.Tools.TypeSpecValidator.Rules.TypeSpec
 {
-    internal interface TypeSpecRule
+    internal abstract class TypeSpecRule
     {
-        RuleResult Evaluate(TypeSpecProject typeSpecProject, IEnumerable<SwaggerFile> swaggerFiles);
+        public abstract RuleResult Evaluate(TypeSpecProject typeSpecProject, IEnumerable<SwaggerFile> swaggerFiles);
     }
 }
