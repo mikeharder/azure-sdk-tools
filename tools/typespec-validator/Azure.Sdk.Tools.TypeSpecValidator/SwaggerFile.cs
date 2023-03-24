@@ -16,7 +16,7 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
 
             matcher.AddExclude("**/quickstart-templates/*.json");
             matcher.AddExclude("**/schema/*.json");
-            matcher.AddExclude("**/ scenarios/**/*.json");
+            matcher.AddExclude("**/scenarios/**/*.json");
             matcher.AddExclude("**/examples/**/*.json");
             matcher.AddExclude("**/package.json");
             matcher.AddExclude("**/package-lock.json");
