@@ -9,6 +9,11 @@ namespace Azure.Sdk.Tools.TypeSpecValidation
     {
         public class Options
         {
+            [Value(0, MetaName = "Path", Required = true, HelpText = "Validates TypeSpec projects under this path.")]
+            public string Path { get; set; }
+
+            [Option('d', "git-diff", HelpText = "Only validate TypeSpec projects changes relative to a git commit (or branch).")]
+            public string GitDiff { get; set; }
         }
 
         public static async Task Main(string[] args)
@@ -38,12 +43,17 @@ namespace Azure.Sdk.Tools.TypeSpecValidation
 
             Console.Error.WriteLine(helpText);
 
+            Console.Error.WriteLine("Examples");
+            Console.Error.WriteLine(@"> typespec-validator specification\contosowidgetmanager");
+            Console.Error.WriteLine();
+            Console.Error.WriteLine(@"> typespec-validator --git-diff main specification\contosowidgetmanager");
+
             return Task.CompletedTask;
         }
 
         private static async Task Run(Options options)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(options.Path);
             await Task.CompletedTask;
         }
     }

@@ -15,7 +15,7 @@ typespec-validator <path>
 
 Example:
 ```
-typespec-validator specificaton/contosowidgetmanager
+typespec-validator specificaton\contosowidgetmanager
 ```
 
 ### Validate only TypeSpec Projects changed relative to a git commit (or branch)
@@ -25,5 +25,5 @@ typespec-validator --git-diff <commit> <path>
 
 Example:
 ```
-typespec-validator --git-diff main specificaton/contosowidgetmanager
+typespec-validator --git-diff main specificaton\contosowidgetmanager
 ```
