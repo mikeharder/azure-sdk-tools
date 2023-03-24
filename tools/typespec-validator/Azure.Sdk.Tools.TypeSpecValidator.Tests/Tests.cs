@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Azure.Sdk.Tools.TypeSpecValidator.Tests
 {
