@@ -24,16 +24,23 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
             // TODO: Remove or rename to typespec?
             matcher.AddExclude("**/cadl/**/*.json");
 
-            return matcher.GetResultsInFullPath(path)
-                .Where(f => JsonNode.Parse(File.ReadAllText(f))["info"]?["x-typespec-generated"] != null)
-                .Select(f => new SwaggerFile(f));
+            foreach (var f in matcher.GetResultsInFullPath(path))
+            {
+                var json = JsonNode.Parse(File.ReadAllText(f));
+                if (json["info"]?["x-typespec-generated"] != null)
+                {
+                    yield return new SwaggerFile(f, json);
+                }
+            }
         }
 
         public string Path { get; private set; }
+        public JsonNode Json { get; private set; }
 
-        public SwaggerFile(string path)
+        public SwaggerFile(string path, JsonNode json)
         {
             Path = path;
+            Json = json;
         }
     }
 }
