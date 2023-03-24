@@ -59,8 +59,8 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
             // 4. Foreach SwaggerFile, run all SwaggerFileRules, passing in all TypeSpecProjects
             // 5. Foreach TypeSpecProject, run all TypeSpecProjectRules, passing in all SwaggerFiles
 
-            var swaggers = SwaggerFile.EnumerateSwaggerFilesGeneratedFromTypeSpec(options.Path);
             Console.WriteLine("Swagger Files Generated from TypeSpec");
+            var swaggers = SwaggerFile.EnumerateSwaggerFilesGeneratedFromTypeSpec(options.Path);
             foreach (var s in swaggers)
             {
                 Console.WriteLine($"- {s.Path}");
@@ -68,8 +68,8 @@ namespace Azure.Sdk.Tools.TypeSpecValidator
 
             Console.WriteLine();
 
-            var projects = TypeSpecProject.EnumerateProjects(options.Path);
             Console.WriteLine("TypeSpec Projects");
+            var projects = TypeSpecProject.EnumerateProjects(options.Path);
             foreach (var p in projects)
             {
                 Console.WriteLine($"- {p.Path}");
