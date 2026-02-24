@@ -10,6 +10,7 @@ import { methodTokenGenerator } from "./method";
 import { propertyTokenGenerator } from "./property";
 import { typeAliasTokenGenerator } from "./typeAlias";
 import { variableTokenGenerator } from "./variable";
+import { namespaceTokenGenerator } from "./namespace";
 
 export interface GeneratorResult {
   tokens: ReviewToken[];
@@ -32,4 +33,5 @@ export const generators: TokenGenerator[] = [
   propertyTokenGenerator,
   typeAliasTokenGenerator,
   variableTokenGenerator,
+  namespaceTokenGenerator,
 ];
