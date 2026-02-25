@@ -1,35 +1,35 @@
-import { ApiFunction, ApiItem, ApiItemKind } from "@microsoft/api-extractor-model";
+import {
+  ApiCallSignature,
+  ApiConstructSignature,
+  ApiItem,
+  ApiItemKind,
+} from "@microsoft/api-extractor-model";
 import { ReviewToken, TokenKind } from "../models";
 import { TokenGenerator, GeneratorResult } from "./index";
 import { createToken, processExcerptTokens } from "./helpers";
 
-function isValid(item: ApiItem): item is ApiFunction {
-  return item.kind === ApiItemKind.Function;
+type SignatureLike = ApiCallSignature | ApiConstructSignature;
+
+function isValid(item: ApiItem): item is SignatureLike {
+  return item.kind === ApiItemKind.CallSignature || item.kind === ApiItemKind.ConstructSignature;
 }
 
-function generate(item: ApiFunction, deprecated?: boolean): GeneratorResult {
+function generate(item: SignatureLike, deprecated?: boolean): GeneratorResult {
   const tokens: ReviewToken[] = [];
-  if (item.kind !== ApiItemKind.Function) {
+
+  if (item.kind !== ApiItemKind.CallSignature && item.kind !== ApiItemKind.ConstructSignature) {
     throw new Error(
-      `Invalid item ${item.displayName} of kind ${item.kind} for Function token generator.`,
+      `Invalid item ${item.displayName} of kind ${item.kind} for Signature token generator.`,
     );
   }
 
-  // Extract structured properties
   const parameters = item.parameters;
   const typeParameters = item.typeParameters;
 
-  // Add export and function keywords
-  tokens.push(createToken(TokenKind.Keyword, "export", { hasSuffixSpace: true, deprecated }));
-
-  // Check for default export
-  const isDefaultExport = item.excerptTokens.some((t) => t.text.includes("export default"));
-  if (isDefaultExport) {
-    tokens.push(createToken(TokenKind.Keyword, "default", { hasSuffixSpace: true, deprecated }));
+  // Add new keyword for construct signatures
+  if (item.kind === ApiItemKind.ConstructSignature) {
+    tokens.push(createToken(TokenKind.Keyword, "new", { deprecated }));
   }
-
-  tokens.push(createToken(TokenKind.Keyword, "function", { hasSuffixSpace: true, deprecated }));
-  tokens.push(createToken(TokenKind.MemberName, item.displayName, { deprecated }));
 
   // Add type parameters
   if (typeParameters?.length > 0) {
@@ -45,7 +45,7 @@ function generate(item: ApiFunction, deprecated?: boolean): GeneratorResult {
             deprecated,
           }),
         );
-        tokens.push(createToken(TokenKind.Text, tp.constraintExcerpt.text.trim(), { deprecated }));
+        processExcerptTokens(tp.constraintExcerpt.spannedTokens, tokens, deprecated);
       }
 
       if (tp.defaultTypeExcerpt?.text.trim()) {
@@ -100,7 +100,7 @@ function generate(item: ApiFunction, deprecated?: boolean): GeneratorResult {
   return { tokens };
 }
 
-export const functionTokenGenerator: TokenGenerator<ApiFunction> = {
+export const callableSignatureTokenGenerator: TokenGenerator<SignatureLike> = {
   isValid,
   generate,
 };
