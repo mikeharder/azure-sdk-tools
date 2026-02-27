@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added auto-install to `azsdk verify setup` MCP and CLI tool, enabling auto-installing of supported missing requirements
+- Changed the CLI interface for verifying setup to `azsdk verify setup check` for non-install mode, and `azsdk verify setup install`
+
 ### Breaking Changes
 
 ### Bugs Fixed
